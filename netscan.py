@@ -9,7 +9,6 @@ nmap2 = "nmap -sn 192.168.0.1/24 | grep MAC >macs2"
 diff = "diff macs1 macs2 >diff"
 
 
-ps = Pushetta(config.API_KEY)
 x = subprocess.call( nmap1, shell=True)
 
 while True:
@@ -20,9 +19,11 @@ while True:
     for line in lines:
 	if ( line[0] == '>') :
 		info =  " %s has JOINED" % line
+		ps = Pushetta(config.API_KEY)
     		ps.pushMessage(config.CHANNEL_NAME, info)
 	if ( line[0] == '<') :
 		info =  " %s has LEFT" % line
+		ps = Pushetta(config.API_KEY)
     		ps.pushMessage(config.CHANNEL_NAME, info)
 
     
