@@ -1,3 +1,9 @@
+# netscan.py
+#
+# Show devices as they join or exit the network
+#
+# need sudo for nmap
+
 import subprocess
 import sys
 import time
@@ -14,18 +20,17 @@ x = subprocess.call( nmap1, shell=True)
 while True:
     x = subprocess.call( nmap2, shell=True)
     x = subprocess.call( diff,shell=True)
-
+    
+    info = ""
     lines = open("diff", "r") 
     for line in lines:
 	if ( line[0] == '>') :
-		info =  " %s has JOINED" % line
-		ps = Pushetta(config.API_KEY)
-    		ps.pushMessage(config.CHANNEL_NAME, info)
+		info +=  " %s has JOINED \n" % line
 	if ( line[0] == '<') :
-		info =  " %s has LEFT" % line
-		ps = Pushetta(config.API_KEY)
-    		ps.pushMessage(config.CHANNEL_NAME, info)
-
+		info +=  " %s has LEFT \n" % line
+    if (info !="") :
+	ps = Pushetta(config.API_KEY)
+    	ps.pushMessage(config.CHANNEL_NAME, info)
     
     x = subprocess.check_output( "cp macs2 macs1", shell=True)
     time.sleep(10)
